@@ -1,19 +1,9 @@
 package se.axelkarlsson.hydroxide.ui.route.homescreen
 
-import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseInExpo
-import androidx.compose.animation.core.EaseInQuad
-import androidx.compose.animation.core.EaseOut
-import androidx.compose.animation.core.EaseOutExpo
-import androidx.compose.animation.core.TweenSpec
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
-import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.gestures.snapTo
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalGridApi
@@ -34,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import kotlinx.coroutines.launch
 import se.axelkarlsson.hydroxide.ui.route.drawer.DrawerScreen
 import se.axelkarlsson.hydroxide.util.getScreenHeight
 import kotlin.math.roundToInt
