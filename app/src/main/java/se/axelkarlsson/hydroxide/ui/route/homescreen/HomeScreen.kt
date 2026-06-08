@@ -12,14 +12,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import se.axelkarlsson.hydroxide.ui.route.drawer.DrawerScreen
 import se.axelkarlsson.hydroxide.util.getScreenHeight
 import kotlin.math.roundToInt
@@ -70,7 +68,7 @@ fun HomeScreen(
                     )
                 }
         ) {
-            DrawerScreen()
+            DrawerScreen(anchoredDraggableState)
         }
     }
 }
