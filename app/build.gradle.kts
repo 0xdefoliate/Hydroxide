@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -5,7 +8,26 @@ plugins {
     id("com.google.dagger.hilt.android")
 }
 
+val keyStorePropertiesFile = rootProject.file("keystore.properties")
+val useKeyStoreProperties = keyStorePropertiesFile.canRead()
+val keyStoreProperties = Properties()
+
+if (useKeyStoreProperties) {
+    keyStoreProperties.load(FileInputStream(keyStorePropertiesFile))
+}
+
 android {
+    if (useKeyStoreProperties) {
+        signingConfigs {
+            create("config") {
+                keyAlias = keyStoreProperties["keyAlias"] as String
+                keyPassword = keyStoreProperties["keyPassword"] as String
+                storeFile = file(keyStoreProperties["storeFile"] as String)
+                storePassword = keyStoreProperties["storePassword"] as String
+            }
+        }
+    }
+
     namespace = "se.axelkarlsson.hydroxide"
     compileSdk {
         version = release(37) {
@@ -24,9 +46,19 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+        }
+
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            if (useKeyStoreProperties) {
+                signingConfig = signingConfigs.getByName("config")
+            }
+
+            optimization {
+                isMinifyEnabled = true
+                isShrinkResources = true
+            }
         }
     }
     compileOptions {
