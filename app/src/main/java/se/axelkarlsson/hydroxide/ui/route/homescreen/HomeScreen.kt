@@ -34,7 +34,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import kotlinx.coroutines.launch
 import se.axelkarlsson.hydroxide.ui.route.drawer.DrawerScreen
 import se.axelkarlsson.hydroxide.util.getScreenHeight
 import kotlin.math.roundToInt
@@ -114,7 +113,7 @@ fun HomeScreen(
                     )
                 }
         ) {
-            DrawerScreen()
+            DrawerScreen(anchoredDraggableState)
         }
     }
 }
