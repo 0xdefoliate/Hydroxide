@@ -17,6 +17,10 @@ private fun scaled(drawable: Drawable, factor: Float, resources: Resources): Dra
     val width = drawable.intrinsicWidth
     val height = drawable.intrinsicHeight
 
+    if (width < 0 || height < 0) {
+        return drawable
+    }
+
     val px = width / 2f
     val py = height / 2f
 
@@ -62,6 +66,10 @@ class AppIcon(
                 val width = layer.intrinsicWidth
                 val height = layer.intrinsicHeight
 
+                if (width < 0 || height < 0) {
+                    return null
+                }
+
                 val tmp = createBitmap(width, height)
                 val canvas = Canvas(tmp)
 
@@ -77,6 +85,10 @@ class AppIcon(
     val rounded: Bitmap?
         get() {
             val tmp: Bitmap = bitmap ?: return null
+
+            if (tmp.width < 0 || tmp.height < 0) {
+                return null
+            }
 
             val bitmap = createBitmap(tmp.width, tmp.height)
             val canvas = Canvas(bitmap)
