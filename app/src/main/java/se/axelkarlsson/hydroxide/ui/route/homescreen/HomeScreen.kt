@@ -23,14 +23,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import kotlinx.coroutines.launch
 import se.axelkarlsson.hydroxide.ui.route.drawer.DrawerScreen
-import se.axelkarlsson.hydroxide.util.getScreenHeight
 import kotlin.math.roundToInt
 
 enum class HomeScreenDrawerAnchor {
@@ -43,7 +42,9 @@ enum class HomeScreenDrawerAnchor {
 fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
-    val collapsedHeight = getScreenHeight(LocalContext.current).toFloat()
+    val windowInfo = LocalWindowInfo.current
+
+    val collapsedHeight = LocalDensity.current.run { windowInfo.containerSize.height.toDp().toPx() }
     val expandedHeight = WindowInsets.statusBars.getBottom(LocalDensity.current).toFloat()
 
     val scope = rememberCoroutineScope()
