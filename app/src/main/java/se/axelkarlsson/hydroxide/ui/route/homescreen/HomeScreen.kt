@@ -1,7 +1,10 @@
 package se.axelkarlsson.hydroxide.ui.route.homescreen
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
@@ -10,8 +13,10 @@ import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalGridApi
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,6 +37,7 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import se.axelkarlsson.hydroxide.ui.route.drawer.DrawerScreen
@@ -60,6 +66,10 @@ fun HomeScreen(
         mutableStateOf<Job?>(null)
     }
 
+    val palette by viewModel.palette.collectAsStateWithLifecycle()
+    val time by viewModel.time.collectAsStateWithLifecycle()
+
+
     // Manages the state of the App Drawer
     val anchoredDraggableState = remember {
         AnchoredDraggableState(
@@ -69,6 +79,12 @@ fun HomeScreen(
                 HomeScreenDrawerAnchor.COLLAPSED at collapsedHeight
             },
         )
+    }
+
+    val clockVisible by remember {
+        derivedStateOf {
+            anchoredDraggableState.currentValue == HomeScreenDrawerAnchor.EXPANDED
+        }
     }
 
     // Resolves #7
@@ -133,6 +149,12 @@ fun HomeScreen(
                 enabled = true,
             )
     ) {
+
+        Box(modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues(LocalDensity.current))) {
+            AnimatedVisibility(!clockVisible, enter = fadeIn(), exit = fadeOut()) {
+                Clock(time, palette?.secondaryColor)
+            }
+        }
         Box(
             modifier = Modifier
                 .fillMaxSize()
