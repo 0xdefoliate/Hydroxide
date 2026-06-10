@@ -13,8 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import se.axelkarlsson.hydroxide.app.App
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
+import se.axelkarlsson.hydroxide.util.digitalClock
 import javax.inject.Inject
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -27,15 +26,14 @@ class HomeScreenViewModel @Inject constructor(
     private val wallpaperManager = WallpaperManager.getInstance(context)
 
     private val _apps = MutableStateFlow<List<App>>(emptyList())
-    private val _time =
-        MutableStateFlow<String>(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")))
+    private val _time = MutableStateFlow<String>(digitalClock(context))
 
     val apps: StateFlow<List<App>> = _apps
     val time: StateFlow<String> = _time
 
     val palette = MutableStateFlow<WallpaperColors?>(null)
 
-    fun load() {
+    init {
         _apps.value = App.query(context)
 
         viewModelScope.launch {
@@ -48,7 +46,7 @@ class HomeScreenViewModel @Inject constructor(
 
         viewModelScope.launch {
             while (isActive) {
-                _time.value = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+                _time.value = digitalClock(context)
                 delay(300.toDuration(DurationUnit.MILLISECONDS))
             }
         }

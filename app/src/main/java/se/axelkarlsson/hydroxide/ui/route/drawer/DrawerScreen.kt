@@ -21,14 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import se.axelkarlsson.hydroxide.ui.component.AppItem
 import se.axelkarlsson.hydroxide.ui.route.homescreen.HomeScreenDrawerAnchor
+import se.axelkarlsson.hydroxide.util.NavigationBarVisibility
 
 @Composable
 fun DrawerScreen(
@@ -39,19 +37,18 @@ fun DrawerScreen(
     val apps by viewModel.apps.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
 
-    // TODO: Refactor this code
-    if (window != null) {
-        val insetsController = WindowCompat.getInsetsController(window, window.decorView)
-
-        insetsController.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+    LaunchedEffect(anchoredDraggableState.currentValue) {
+        if (window == null) {
+            return@LaunchedEffect
+        }
 
         if (anchoredDraggableState.currentValue == HomeScreenDrawerAnchor.EXPANDED) {
-            insetsController.hide(WindowInsetsCompat.Type.navigationBars())
+            NavigationBarVisibility.hide(window)
         } else {
-            insetsController.show(WindowInsetsCompat.Type.navigationBars())
+            NavigationBarVisibility.show(window)
         }
     }
+
     Box(
         modifier = Modifier
             .fillMaxSize()

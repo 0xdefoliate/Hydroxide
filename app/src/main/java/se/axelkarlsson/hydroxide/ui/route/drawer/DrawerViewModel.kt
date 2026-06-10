@@ -55,10 +55,12 @@ class DrawerViewModel @Inject constructor(
     init {
         _apps.value = App.query(context)
 
-        App.callback(context, DrawerLauncherCallback(
-            context,
-            _apps
-        ))
+        App.callback(
+            context, DrawerLauncherCallback(
+                context,
+                _apps
+            )
+        )
     }
 
     fun onAppItemTap(app: App) {
