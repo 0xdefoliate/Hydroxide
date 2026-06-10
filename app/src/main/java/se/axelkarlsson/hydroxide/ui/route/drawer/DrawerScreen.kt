@@ -39,10 +39,6 @@ fun DrawerScreen(
     val apps by viewModel.apps.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(Unit) {
-        viewModel.load()
-    }
-
     // TODO: Refactor this code
     if (window != null) {
         val insetsController = WindowCompat.getInsetsController(window, window.decorView)

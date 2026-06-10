@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import se.axelkarlsson.hydroxide.app.App
-import se.axelkarlsson.hydroxide.util.queryApps
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -37,7 +36,7 @@ class HomeScreenViewModel @Inject constructor(
     val palette = MutableStateFlow<WallpaperColors?>(null)
 
     fun load() {
-        _apps.value = queryApps(context)
+        _apps.value = App.query(context)
 
         viewModelScope.launch {
             val colours = wallpaperManager.getWallpaperColors(WallpaperManager.FLAG_SYSTEM)
