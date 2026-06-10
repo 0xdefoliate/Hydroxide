@@ -152,7 +152,7 @@ fun HomeScreen(
 
         Box(modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues(LocalDensity.current))) {
             AnimatedVisibility(!clockVisible, enter = fadeIn(), exit = fadeOut()) {
-                Clock(time, palette?.secondaryColor)
+                Clock(time, palette)
             }
         }
         Box(
