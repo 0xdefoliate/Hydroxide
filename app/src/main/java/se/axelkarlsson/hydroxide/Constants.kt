@@ -1,0 +1,4 @@
+package se.axelkarlsson.hydroxide
+
+const val DRAWER_SWIPE_DOWN_ANIMATION_DURATION_MILLIS = 300
+const val DRAWER_SWIPE_DOWN_THRESHOLD_PIXELS = 30
