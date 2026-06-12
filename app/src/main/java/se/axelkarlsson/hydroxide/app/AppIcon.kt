@@ -12,6 +12,8 @@ import android.graphics.drawable.LayerDrawable
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.graphics.drawable.toDrawable
+import se.axelkarlsson.hydroxide.APP_ICON_DEFAULT_FOREGROUND_SCALING_FACTOR
+import se.axelkarlsson.hydroxide.APP_ICON_DEFAULT_ROUNDING_FACTOR
 
 private fun scaled(drawable: Drawable, factor: Float, resources: Resources): Drawable {
     val width = drawable.intrinsicWidth
@@ -42,7 +44,9 @@ private fun scaled(drawable: Drawable, factor: Float, resources: Resources): Dra
 
 class AppIcon(
     private val context: Context,
-    val source: Drawable
+    val source: Drawable,
+    val roundedness: Float = APP_ICON_DEFAULT_ROUNDING_FACTOR,
+    val scaling: Float = APP_ICON_DEFAULT_FOREGROUND_SCALING_FACTOR
 ) {
     val drawable: Drawable
         get() {
@@ -60,7 +64,10 @@ class AppIcon(
 
             if (source is AdaptiveIconDrawable) {
                 val layers =
-                    arrayOf(source.background, scaled(source.foreground, 1.3f, context.resources))
+                    arrayOf(
+                        source.background,
+                        scaled(source.foreground, scaling, context.resources)
+                    )
                 val layer = LayerDrawable(layers)
 
                 val width = layer.intrinsicWidth
@@ -94,7 +101,7 @@ class AppIcon(
             val canvas = Canvas(bitmap)
 
             val rounded = RoundedBitmapDrawableFactory.create(context.resources, tmp)
-            val radius = tmp.width * 0.12f
+            val radius = tmp.width * roundedness
 
             rounded.cornerRadius = radius
 
