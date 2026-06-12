@@ -9,6 +9,7 @@ import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
+import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalGridApi
 import androidx.compose.foundation.layout.WindowInsets
@@ -133,9 +134,10 @@ fun HomeScreen(
                         job = scope.launch {
                             // Makes animations feel snappier when users have already swiped more than halfway.
                             if (anchoredDraggableState.requireOffset() > expandedHeight / 2) {
-                                delay(250.milliseconds)
+                                delay(50.milliseconds)
                             }
-                            anchoredDraggableState.settle(
+                            anchoredDraggableState.animateTo(
+                                HomeScreenDrawerAnchor.COLLAPSED,
                                 animationSpec = tween()
                             )
                         }
