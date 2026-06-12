@@ -53,9 +53,8 @@ class MainActivity : ComponentActivity() {
 
     private fun onGestureHome(intent: Intent) {
         val contract = GestureNavContract.fromIntent(intent) ?: return
-
         val position = appItemPositionTracker.get(contract.componentName)
 
-        contract.sendEndPosition(position, this)
+        contract.sendEndPosition(position)
     }
 }

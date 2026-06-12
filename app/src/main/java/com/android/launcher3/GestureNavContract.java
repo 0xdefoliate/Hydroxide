@@ -19,7 +19,6 @@ import static android.content.Intent.EXTRA_COMPONENT_NAME;
 import static android.content.Intent.EXTRA_USER;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -32,8 +31,6 @@ import android.os.UserHandle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-
-import java.lang.ref.WeakReference;
 
 /**
  * Class to encapsulate the handshake protocol between Launcher and gestureNav.
@@ -57,7 +54,7 @@ public class GestureNavContract {
         this.mCallback = callback;
     }
 
-    public void sendEndPosition(RectF position, Context context) {
+    public void sendEndPosition(RectF position) {
         Bundle result = new Bundle();
         result.putParcelable(EXTRA_ICON_POSITION, position);
         result.putParcelable(EXTRA_ICON_SURFACE, null);
@@ -65,7 +62,7 @@ public class GestureNavContract {
         if (sMessageReceiver == null) {
             sMessageReceiver = new StaticMessageReceiver();
         }
-        result.putParcelable(EXTRA_ON_FINISH_CALLBACK, sMessageReceiver.setCurrentContext(context));
+        result.putParcelable(EXTRA_ON_FINISH_CALLBACK, sMessageReceiver.setCurrentContext());
 
         Message callback = Message.obtain();
         callback.copyFrom(mCallback);
@@ -104,11 +101,7 @@ public class GestureNavContract {
 
         private final Messenger mMessenger = new Messenger(new Handler(Looper.getMainLooper(), this));
 
-        private WeakReference<Context> mLastTarget = new WeakReference<>(null);
-
-        public Message setCurrentContext(Context context) {
-            mLastTarget = new WeakReference<>(context);
-
+        public Message setCurrentContext() {
             Message msg = Message.obtain();
             msg.replyTo = mMessenger;
             msg.what = MSG_CLOSE_LAST_TARGET;

@@ -12,8 +12,8 @@ import android.graphics.drawable.LayerDrawable
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.graphics.drawable.toDrawable
-import se.axelkarlsson.hydroxide.APP_ICON_DEFAULT_FOREGROUND_SCALING
-import se.axelkarlsson.hydroxide.APP_ICON_DEFAULT_ROUNDEDNESS
+import se.axelkarlsson.hydroxide.APP_ICON_DEFAULT_FOREGROUND_SCALING_FACTOR
+import se.axelkarlsson.hydroxide.APP_ICON_DEFAULT_ROUNDING_FACTOR
 
 private fun scaled(drawable: Drawable, factor: Float, resources: Resources): Drawable {
     val width = drawable.intrinsicWidth
@@ -45,8 +45,8 @@ private fun scaled(drawable: Drawable, factor: Float, resources: Resources): Dra
 class AppIcon(
     private val context: Context,
     val source: Drawable,
-    val roundedness: Float = APP_ICON_DEFAULT_ROUNDEDNESS,
-    val scaling: Float = APP_ICON_DEFAULT_FOREGROUND_SCALING
+    val roundedness: Float = APP_ICON_DEFAULT_ROUNDING_FACTOR,
+    val scaling: Float = APP_ICON_DEFAULT_FOREGROUND_SCALING_FACTOR
 ) {
     val drawable: Drawable
         get() {
