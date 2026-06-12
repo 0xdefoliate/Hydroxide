@@ -39,7 +39,7 @@ android {
         applicationId = "se.axelkarlsson.hydroxide"
         minSdk = 33
         targetSdk = 36
-        versionCode = 6
+        versionCode = 7
         versionName = versionCode.toString()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
