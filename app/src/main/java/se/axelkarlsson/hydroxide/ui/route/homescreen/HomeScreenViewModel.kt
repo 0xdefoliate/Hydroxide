@@ -26,23 +26,16 @@ class HomeScreenViewModel @Inject constructor(
     private val wallpaperManager = WallpaperManager.getInstance(context)
 
     private val _apps = MutableStateFlow<List<App>>(emptyList())
-    private val _time = MutableStateFlow<String>(digitalClock(context))
+    private val _time = MutableStateFlow(digitalClock(context))
 
     val apps: StateFlow<List<App>> = _apps
     val time: StateFlow<String> = _time
 
-    val palette = MutableStateFlow<WallpaperColors?>(null)
+    val palette: WallpaperColors? =
+        wallpaperManager.getWallpaperColors(WallpaperManager.FLAG_SYSTEM)
 
     init {
         _apps.value = App.query(context)
-
-        viewModelScope.launch {
-            val colours = wallpaperManager.getWallpaperColors(WallpaperManager.FLAG_SYSTEM)
-
-            if (colours != null) {
-                palette.value = colours
-            }
-        }
 
         viewModelScope.launch {
             while (isActive) {

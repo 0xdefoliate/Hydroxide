@@ -50,13 +50,10 @@ enum class HomeScreenDrawerAnchor {
     COLLAPSED, EXPANDED
 }
 
-private const val TAG = "HomeScreen"
-
 @OptIn(ExperimentalGridApi::class)
 @Composable
 fun HomeScreen(
-    appItemPositionTracker: AppItemPositionTracker,
-    viewModel: HomeScreenViewModel = hiltViewModel()
+    appItemPositionTracker: AppItemPositionTracker, viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val window = LocalActivity.current?.window
     val windowInfo = LocalWindowInfo.current
@@ -71,7 +68,7 @@ fun HomeScreen(
         mutableStateOf<Job?>(null)
     }
 
-    val palette by viewModel.palette.collectAsStateWithLifecycle()
+    val palette = viewModel.palette
     val time by viewModel.time.collectAsStateWithLifecycle()
 
 
@@ -169,15 +166,14 @@ fun HomeScreen(
                 Clock(time, palette)
             }
         }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .offset {
-                    IntOffset(
-                        x = 0, y = anchoredDraggableState.requireOffset().roundToInt()
-                    )
-                }
-                .nestedScroll(nestedScrollConnection)) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .offset {
+                IntOffset(
+                    x = 0, y = anchoredDraggableState.requireOffset().roundToInt()
+                )
+            }
+            .nestedScroll(nestedScrollConnection)) {
             DrawerScreen(appItemPositionTracker)
         }
     }
