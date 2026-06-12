@@ -46,11 +46,6 @@ fun AppItem(
         animationSpec = tween(durationMillis = 170, easing = Ease)
     )
 
-    val shadow by animateFloatAsState(
-        targetValue = if (pressed) 48f else 8f,
-        animationSpec = tween(durationMillis = 170)
-    )
-
     Column(
         modifier = Modifier
             .padding(12.dp)

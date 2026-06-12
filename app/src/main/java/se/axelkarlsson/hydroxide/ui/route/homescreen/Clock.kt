@@ -15,12 +15,13 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.toColorInt
 import androidx.core.graphics.toColorLong
+import se.axelkarlsson.hydroxide.extension.shouldUseDarkText
 
 @Composable
 fun Clock(time: String, palette: WallpaperColors? = null) {
     val colour = if (palette == null) {
         Color.White
-    } else if (palette.colorHints and WallpaperColors.HINT_SUPPORTS_DARK_TEXT != 0) {
+    } else if (palette.shouldUseDarkText) {
         Color(
             ColorUtils.blendARGB(
                 palette.primaryColor.toArgb(),

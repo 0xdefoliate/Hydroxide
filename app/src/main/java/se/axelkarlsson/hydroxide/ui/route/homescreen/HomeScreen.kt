@@ -68,7 +68,7 @@ fun HomeScreen(
         mutableStateOf<Job?>(null)
     }
 
-    val palette = viewModel.palette
+    val palette by viewModel.palette.collectAsStateWithLifecycle()
     val time by viewModel.time.collectAsStateWithLifecycle()
 
 
@@ -166,15 +166,16 @@ fun HomeScreen(
                 Clock(time, palette)
             }
         }
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .offset {
-                IntOffset(
-                    x = 0, y = anchoredDraggableState.requireOffset().roundToInt()
-                )
-            }
-            .nestedScroll(nestedScrollConnection)) {
-            DrawerScreen(appItemPositionTracker)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .offset {
+                    IntOffset(
+                        x = 0, y = anchoredDraggableState.requireOffset().roundToInt()
+                    )
+                }
+                .nestedScroll(nestedScrollConnection)) {
+            DrawerScreen(appItemPositionTracker, palette)
         }
     }
 }
