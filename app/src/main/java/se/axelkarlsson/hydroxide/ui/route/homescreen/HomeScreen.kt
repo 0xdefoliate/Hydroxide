@@ -39,6 +39,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import se.axelkarlsson.hydroxide.DRAWER_SWIPE_DOWN_ANIMATION_DURATION_MILLIS
 import se.axelkarlsson.hydroxide.DRAWER_SWIPE_DOWN_THRESHOLD_PIXELS
+import se.axelkarlsson.hydroxide.launcher.AppItemPositionTracker
 import se.axelkarlsson.hydroxide.ui.route.drawer.DrawerScreen
 import kotlin.math.roundToInt
 
@@ -49,6 +50,7 @@ enum class HomeScreenDrawerAnchor {
 @OptIn(ExperimentalGridApi::class)
 @Composable
 fun HomeScreen(
+    appItemPositionTracker: AppItemPositionTracker,
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val windowInfo = LocalWindowInfo.current
@@ -140,7 +142,7 @@ fun HomeScreen(
                     )
                 }
                 .nestedScroll(nestedScrollConnection)) {
-            DrawerScreen(anchoredDraggableState)
+            DrawerScreen(appItemPositionTracker, anchoredDraggableState)
         }
     }
 }
