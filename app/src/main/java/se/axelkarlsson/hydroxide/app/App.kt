@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.pm.LauncherApps
 import android.graphics.RectF
 import android.os.UserHandle
-import android.util.Log
 import androidx.core.content.getSystemService
 import androidx.core.graphics.toRect
 import se.axelkarlsson.hydroxide.PERMANENTLY_HIDDEN_APPS_BY_PACKAGE_NAMES

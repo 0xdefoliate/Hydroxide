@@ -1,11 +1,9 @@
 package se.axelkarlsson.hydroxide.util
 
 import android.view.Window
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 
-object NavigationBarVisibility: SystemBarVisibility() {
+object NavigationBarVisibility : SystemBarVisibility() {
     override fun show(window: Window) {
         val insetsController = configure(window)
         insetsController.show(WindowInsetsCompat.Type.navigationBars())
