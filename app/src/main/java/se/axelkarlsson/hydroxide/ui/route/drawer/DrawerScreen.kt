@@ -33,6 +33,7 @@ import se.axelkarlsson.hydroxide.launcher.AppItemPositionTracker
 import se.axelkarlsson.hydroxide.ui.component.AppItem
 import se.axelkarlsson.hydroxide.ui.route.homescreen.HomeScreenDrawerAnchor
 import se.axelkarlsson.hydroxide.util.NavigationBarVisibility
+import se.axelkarlsson.hydroxide.util.StatusBarVisibility
 
 @Composable
 fun DrawerScreen(
@@ -44,17 +45,7 @@ fun DrawerScreen(
     val apps by viewModel.apps.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(anchoredDraggableState.currentValue) {
-        if (window == null) {
-            return@LaunchedEffect
-        }
 
-        if (anchoredDraggableState.currentValue == HomeScreenDrawerAnchor.EXPANDED) {
-            NavigationBarVisibility.hide(window)
-        } else {
-            NavigationBarVisibility.show(window)
-        }
-    }
 
     Box(
         modifier = Modifier

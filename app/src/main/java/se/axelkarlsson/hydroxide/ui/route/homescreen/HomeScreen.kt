@@ -1,6 +1,7 @@
 package se.axelkarlsson.hydroxide.ui.route.homescreen
 
 import android.util.Log
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Ease
 import androidx.compose.animation.core.EaseIn
@@ -21,6 +22,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +46,8 @@ import kotlinx.coroutines.launch
 import se.axelkarlsson.hydroxide.DRAWER_SWIPE_DOWN_THRESHOLD_PIXELS
 import se.axelkarlsson.hydroxide.launcher.AppItemPositionTracker
 import se.axelkarlsson.hydroxide.ui.route.drawer.DrawerScreen
+import se.axelkarlsson.hydroxide.util.NavigationBarVisibility
+import se.axelkarlsson.hydroxide.util.StatusBarVisibility
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -59,6 +63,7 @@ fun HomeScreen(
     appItemPositionTracker: AppItemPositionTracker,
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
+    val window = LocalActivity.current?.window
     val windowInfo = LocalWindowInfo.current
     val density = LocalDensity.current
 
@@ -86,9 +91,34 @@ fun HomeScreen(
         )
     }
 
+    val drawerOffset by remember {
+        derivedStateOf {
+            anchoredDraggableState.requireOffset()
+        }
+    }
+
     val clockVisible by remember {
         derivedStateOf {
             anchoredDraggableState.currentValue == HomeScreenDrawerAnchor.EXPANDED
+        }
+    }
+
+    LaunchedEffect(anchoredDraggableState.currentValue, drawerOffset) {
+        if (window == null) {
+            return@LaunchedEffect
+        }
+
+        if (anchoredDraggableState.currentValue == HomeScreenDrawerAnchor.EXPANDED) {
+            NavigationBarVisibility.hide(window)
+            StatusBarVisibility.show(window)
+        } else {
+            NavigationBarVisibility.show(window)
+        }
+
+        if (drawerOffset >= collapsedHeight) {
+            StatusBarVisibility.hide(window)
+        } else {
+            StatusBarVisibility.show(window)
         }
     }
 
