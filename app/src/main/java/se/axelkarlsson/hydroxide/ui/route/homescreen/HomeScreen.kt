@@ -41,7 +41,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import se.axelkarlsson.hydroxide.DRAWER_SWIPE_DOWN_ANIMATION_DURATION_MILLIS
 import se.axelkarlsson.hydroxide.DRAWER_SWIPE_DOWN_THRESHOLD_PIXELS
 import se.axelkarlsson.hydroxide.launcher.AppItemPositionTracker
 import se.axelkarlsson.hydroxide.ui.route.drawer.DrawerScreen

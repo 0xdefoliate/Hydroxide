@@ -45,7 +45,8 @@ fun Clock(time: String, palette: WallpaperColors? = null) {
         text = time,
         modifier = Modifier
             .padding(24.dp)
-            .shadow(28.dp, shape = CircleShape),
+            .shadow(28.dp, shape = CircleShape)
+            .padding(12.dp),
         fontSize = 64.sp,
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Black,
