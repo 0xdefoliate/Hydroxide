@@ -5,7 +5,6 @@ import android.app.WallpaperManager
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
