@@ -3,17 +3,18 @@ package se.axelkarlsson.hydroxide.ui.route.drawer
 import android.content.Context
 import android.content.pm.LauncherApps
 import android.os.UserHandle
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import se.axelkarlsson.hydroxide.app.App
+import se.axelkarlsson.hydroxide.launcher.AppItemPositionTracker
 import javax.inject.Inject
 
 private class DrawerLauncherCallback(
-    private val context: Context,
-    private val apps: MutableStateFlow<List<App>>
+    private val context: Context, private val apps: MutableStateFlow<List<App>>
 ) : LauncherApps.Callback() {
     override fun onPackageAdded(p0: String?, p1: UserHandle?) {
         apps.value = App.query(context)
@@ -28,17 +29,13 @@ private class DrawerLauncherCallback(
     }
 
     override fun onPackagesAvailable(
-        p0: Array<out String?>?,
-        p1: UserHandle?,
-        p2: Boolean
+        p0: Array<out String?>?, p1: UserHandle?, p2: Boolean
     ) {
         TODO("Not yet implemented")
     }
 
     override fun onPackagesUnavailable(
-        p0: Array<out String?>?,
-        p1: UserHandle?,
-        p2: Boolean
+        p0: Array<out String?>?, p1: UserHandle?, p2: Boolean
     ) {
         TODO("Not yet implemented")
     }
@@ -57,14 +54,17 @@ class DrawerViewModel @Inject constructor(
 
         App.callback(
             context, DrawerLauncherCallback(
-                context,
-                _apps
+                context, _apps
             )
         )
     }
 
-    fun onAppItemTap(app: App) {
-        app.start(context)
+    fun onAppItemTap(app: App, appItemPositionTracker: AppItemPositionTracker) {
+        Log.d(
+            "FOO",
+            "STARTING ${app.metadata.componentName}; POSITION = ${appItemPositionTracker.get(app.metadata.componentName)}"
+        )
+        app.start(context, appItemPositionTracker.get(app.metadata.componentName))
     }
 
     fun onAppItemLongTap(app: App) {
