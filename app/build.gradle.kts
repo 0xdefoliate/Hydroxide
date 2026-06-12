@@ -38,7 +38,7 @@ android {
     defaultConfig {
         applicationId = "se.axelkarlsson.hydroxide"
         minSdk = 33
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 7
         versionName = versionCode.toString()
 
