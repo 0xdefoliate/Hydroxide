@@ -34,7 +34,7 @@ fun Clock(time: String, palette: WallpaperColors? = null) {
             ColorUtils.blendARGB(
                 palette.primaryColor.toArgb(),
                 android.graphics.Color.WHITE.toColorLong().toColorInt(),
-                0.7f
+                0.8f
             )
         )
     }
@@ -43,7 +43,6 @@ fun Clock(time: String, palette: WallpaperColors? = null) {
         text = time,
         modifier = Modifier
             .padding(24.dp)
-            .shadow(28.dp, shape = CircleShape, ambientColor = Color.Gray)
             .padding(12.dp),
         fontSize = 64.sp,
         fontFamily = FontFamily.Default,

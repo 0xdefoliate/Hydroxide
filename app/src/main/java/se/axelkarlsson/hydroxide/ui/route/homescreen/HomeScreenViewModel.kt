@@ -5,6 +5,7 @@ import android.app.WallpaperManager
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,9 +30,7 @@ class HomeScreenViewModel @Inject constructor(
         private val palette: MutableStateFlow<WallpaperColors?>
     ) : WallpaperManager.OnColorsChangedListener {
         override fun onColorsChanged(p0: WallpaperColors?, p1: Int) {
-            if (p1 == WallpaperManager.FLAG_SYSTEM) {
-                palette.value = p0
-            }
+            palette.value = p0
         }
     }
 
