@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.pm.LauncherApps
 import android.graphics.RectF
 import android.os.UserHandle
+import android.util.Log
 import androidx.core.content.getSystemService
 import androidx.core.graphics.toRect
+import se.axelkarlsson.hydroxide.PERMANENTLY_HIDDEN_APPS_BY_PACKAGE_NAMES
 import se.axelkarlsson.hydroxide.launcher.LauncherException
 import se.axelkarlsson.hydroxide.util.currentUserHandle
 
@@ -16,7 +18,7 @@ class App(val metadata: AppMetadata) {
             val launcherApps = context.getSystemService<LauncherApps>() ?: return emptyList()
             val density = context.resources.displayMetrics.densityDpi
 
-            val apps = launcherApps.getActivityList(null, userHandle).map {
+            val apps = launcherApps.getActivityList(null, userHandle).mapNotNull {
                 val drawable = it.getBadgedIcon(density)
 
                 val metadata = AppMetadata(
@@ -26,7 +28,11 @@ class App(val metadata: AppMetadata) {
                     componentName = it.componentName
                 )
 
-                App(metadata)
+                if (metadata.packageName !in PERMANENTLY_HIDDEN_APPS_BY_PACKAGE_NAMES) {
+                    App(metadata)
+                } else {
+                    null
+                }
             }
 
             return apps
