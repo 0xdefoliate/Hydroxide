@@ -1,6 +1,8 @@
 package se.axelkarlsson.hydroxide.ui.route.homescreen
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Ease
 import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -33,19 +35,24 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.Velocity
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import se.axelkarlsson.hydroxide.DRAWER_SWIPE_DOWN_ANIMATION_DURATION_MILLIS
 import se.axelkarlsson.hydroxide.DRAWER_SWIPE_DOWN_THRESHOLD_PIXELS
 import se.axelkarlsson.hydroxide.launcher.AppItemPositionTracker
 import se.axelkarlsson.hydroxide.ui.route.drawer.DrawerScreen
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
 
 enum class HomeScreenDrawerAnchor {
     COLLAPSED, EXPANDED
 }
+
+private const val TAG = "HomeScreen"
 
 @OptIn(ExperimentalGridApi::class)
 @Composable
@@ -57,7 +64,7 @@ fun HomeScreen(
     val density = LocalDensity.current
 
     val collapsedHeight = density.run { windowInfo.containerSize.height.toDp().toPx() }
-    val expandedHeight = WindowInsets.statusBars.getBottom(density).toFloat()
+    val expandedHeight = 0f
 
     val scope = rememberCoroutineScope()
 
@@ -92,18 +99,23 @@ fun HomeScreen(
             override fun onPostScroll(
                 consumed: Offset, available: Offset, source: NestedScrollSource
             ): Offset {
-                if (available.y > DRAWER_SWIPE_DOWN_THRESHOLD_PIXELS) {
+                super.onPostScroll(consumed, available, source)
+
+                if (consumed.y <= 0 && available.y > DRAWER_SWIPE_DOWN_THRESHOLD_PIXELS) {
+                    anchoredDraggableState.dispatchRawDelta(available.y)
+
                     // This runs when the user swipes down
 
                     // Caching the job ensures tonnes of jobs which closes the drawer doesn't get spawned,
                     // which would lead to janky UX and decreased performance.
                     if (job == null || !(job?.isActive ?: false)) {
                         job = scope.launch {
-                            anchoredDraggableState.animateTo(
-                                HomeScreenDrawerAnchor.COLLAPSED, animationSpec = tween(
-                                    durationMillis = DRAWER_SWIPE_DOWN_ANIMATION_DURATION_MILLIS,
-                                    easing = EaseIn
-                                )
+                            // Makes animations feel snappier when users have already swiped more than halfway.
+                            if (anchoredDraggableState.requireOffset() > expandedHeight / 2) {
+                                delay(250.milliseconds)
+                            }
+                            anchoredDraggableState.settle(
+                                animationSpec = tween()
                             )
                         }
 

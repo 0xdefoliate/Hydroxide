@@ -70,8 +70,6 @@ fun AppItem(
             .graphicsLayer {
                 scaleX = scale
                 scaleY = scale
-                shadowElevation = shadow
-                shape = CircleShape
             }
             .onGloballyPositioned { coordinates ->
                 bounds.value = coordinates.boundsInParent().toAndroidRectF()
