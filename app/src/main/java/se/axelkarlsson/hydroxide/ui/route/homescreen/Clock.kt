@@ -2,11 +2,9 @@ package se.axelkarlsson.hydroxide.ui.route.homescreen
 
 import android.app.WallpaperColors
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -34,7 +32,7 @@ fun Clock(time: String, palette: WallpaperColors? = null) {
             ColorUtils.blendARGB(
                 palette.primaryColor.toArgb(),
                 android.graphics.Color.WHITE.toColorLong().toColorInt(),
-                0.7f
+                0.8f
             )
         )
     }
@@ -43,7 +41,6 @@ fun Clock(time: String, palette: WallpaperColors? = null) {
         text = time,
         modifier = Modifier
             .padding(24.dp)
-            .shadow(28.dp, shape = CircleShape, ambientColor = Color.Gray)
             .padding(12.dp),
         fontSize = 64.sp,
         fontFamily = FontFamily.Default,

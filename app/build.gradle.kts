@@ -38,8 +38,8 @@ android {
     defaultConfig {
         applicationId = "se.axelkarlsson.hydroxide"
         minSdk = 33
-        targetSdk = 36
-        versionCode = 7
+        targetSdk = 37
+        versionCode = 8
         versionName = versionCode.toString()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

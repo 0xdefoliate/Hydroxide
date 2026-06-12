@@ -3,7 +3,6 @@ package se.axelkarlsson.hydroxide.ui.route.drawer
 import android.content.Context
 import android.content.pm.LauncherApps
 import android.os.UserHandle
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -60,10 +59,6 @@ class DrawerViewModel @Inject constructor(
     }
 
     fun onAppItemTap(app: App, appItemPositionTracker: AppItemPositionTracker) {
-        Log.d(
-            "FOO",
-            "STARTING ${app.metadata.componentName}; POSITION = ${appItemPositionTracker.get(app.metadata.componentName)}"
-        )
         app.start(context, appItemPositionTracker.get(app.metadata.componentName))
     }
 

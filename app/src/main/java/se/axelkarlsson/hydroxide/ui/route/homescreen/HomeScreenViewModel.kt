@@ -29,9 +29,7 @@ class HomeScreenViewModel @Inject constructor(
         private val palette: MutableStateFlow<WallpaperColors?>
     ) : WallpaperManager.OnColorsChangedListener {
         override fun onColorsChanged(p0: WallpaperColors?, p1: Int) {
-            if (p1 == WallpaperManager.FLAG_SYSTEM) {
-                palette.value = p0
-            }
+            palette.value = p0
         }
     }
 
